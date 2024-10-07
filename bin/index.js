@@ -78,7 +78,7 @@ app.get('/prerender/:zoomTitle/:lat1/:lon1/:lat2/:lon2', async (req, res) => {
             try {
                 const url = tileServerUrl.replace('{z}', zoomLevel).replace('{x}', x).replace('{y}', y);
                 const response = await axios.get(url, { responseType: 'arraybuffer' });
-                await fs.writeFile(cacheFilePath, response.data);
+                await fs.writeFileSync(cacheFilePath, response.data);
             } catch (error) {
                 console.error(`Failed to fetch tile at ${x}, ${y}:`, error);
                 continue;
