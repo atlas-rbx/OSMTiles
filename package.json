@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "axios": "^0.27.2",
+    "express": "^4.21.0",
+    "path": "^0.12.7",
+    "sharp": "^0.30.0"
+  },
+  "name": "osmtiles",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "osmtiles": "bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "pkg": {
+    "targets": [
+      "node22"
+    ],
+    "scripts": [
+      "./node_modules/axios/**/*.js"
+    ],
+    "outputPath": "dist"
+  }
+}
