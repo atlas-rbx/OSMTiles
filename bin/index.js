@@ -1,6 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 const os = require("os")
@@ -79,7 +78,7 @@ app.get('/prerender/:zoomTitle/:lat1/:lon1/:lat2/:lon2', async (req, res) => {
             try {
                 const url = tileServerUrl.replace('{z}', zoomLevel).replace('{x}', x).replace('{y}', y);
                 const response = await axios.get(url, { responseType: 'arraybuffer' });
-                await sharp(response.data).toFile(cacheFilePath);
+                await fs.writeFile(cacheFilePath, response.data);
             } catch (error) {
                 console.error(`Failed to fetch tile at ${x}, ${y}:`, error);
                 continue;
