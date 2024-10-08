@@ -43,7 +43,7 @@ program
 
         const getCacheFilePath = (zoomTitle, x, y) => {
             const cacheDir = getCacheDirectory(zoomTitle);
-            return path.join(options.path, `${zoomTitle}_${x}_${y}.png`);
+            return path.join(cacheDir, `${zoomTitle}_${x}_${y}.png`);
         };
 
         app.get('/prerender/:zoomTitle/:lat1/:lon1/:lat2/:lon2', async (req, res) => {
@@ -169,7 +169,7 @@ program
                         };
                         
                         const initialZoomTitle = getZoomTitle(map.getZoom());
-                        const tileLayer = L.tileLayer(program.opts().path + initialZoomTitle + '/' + initialZoomTitle + '_{x}_{y}.png', {
+                        const tileLayer = L.tileLayer("/cache/" + initialZoomTitle + '/' + initialZoomTitle + '_{x}_{y}.png', {
                             maxZoom: 12,
                             minZoom: 8,
                             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -190,7 +190,7 @@ program
                         map.on('zoomend', () => {
                             const zoom = map.getZoom();
                             const zoomTitle = getZoomTitle(zoom);
-                            tileLayer.setUrl(program.opts().path + zoomTitle + '/' + zoomTitle + '_{x}_{y}.png');
+                            tileLayer.setUrl("/cache/" + zoomTitle + '/' + zoomTitle + '_{x}_{y}.png');
                         });
                     </script>
                 </body>
