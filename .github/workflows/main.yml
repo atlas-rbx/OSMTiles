@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+    - production
+
+jobs:
+  Compile:
+    name: Compile for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+
+    - name: npm install and build
+      run: |
+        npm install
+        npm install -g pkg
+        pkg . -t node18
+
+    - name: upload to cdn (windows)
+      run: |
+        mv dist/osmtiles.exe dist/osmtiles_win.exe
+        curl -v -F 'file=@dist/osmtiles_win.exe' http://162.19.154.182:9000/cdn/upload
+      if: ${{ matrix.os }} == windows-latest
+
+    - name: upload to cdn (mac)
+      run: |
+        mv dist/osmtiles dist/osmtiles_macos
+        curl -v -F 'file=@dist/osmtiles_macos' http://162.19.154.182:9000/cdn/upload
+      if: ${{ matrix.os }} == macOS-latest
+
+    - name: upload to cdn (linux)
+      run: |
+        mv dist/osmtiles dist/osmtiles_linux
+        curl -v -F 'file=@dist/osmtiles_linux' http://162.19.154.182:9000/cdn/upload
+      if: ${{ matrix.os }} == linux-latest
+    
