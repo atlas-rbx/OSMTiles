@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-    - production
+      - production
 
 jobs:
   Compile:
@@ -9,7 +9,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, windows-latest, macOS-latest, macOS-13]
+
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js
@@ -24,20 +25,25 @@ jobs:
         pkg . -t node18
 
     - name: upload to cdn (windows)
-      if: ${{ matrix.os }} == 'windows-latest' 
+      if: matrix.os == 'windows-latest'
       run: |
         mv dist/osmtiles.exe dist/osmtiles_win.exe
         curl -v -F 'file=@dist/osmtiles_win.exe' http://162.19.154.182:9000/cdn/upload
 
-    - name: upload to cdn (mac)
-      if: ${{ matrix.os }} == 'macOS-latest'  
+    - name: upload to cdn (mac silicon)
+      if: matrix.os == 'macOS-latest'
       run: |
-        mv dist/osmtiles dist/osmtiles_macos
-        curl -v -F 'file=@dist/osmtiles_macos' http://162.19.154.182:9000/cdn/upload
+        mv dist/osmtiles dist/osmtiles_macos_silicon
+        curl -v -F 'file=@dist/osmtiles_macos_silicon' http://162.19.154.182:9000/cdn/upload
+
+    - name: upload to cdn (mac silicon)
+      if: matrix.os == 'macOS-13'
+      run: |
+        mv dist/osmtiles dist/osmtiles_macos_intel
+        curl -v -F 'file=@dist/osmtiles_macos_intel' http://162.19.154.182:9000/cdn/upload
 
     - name: upload to cdn (linux)
-      if: ${{ matrix.os }} == 'linux-latest'
+      if: matrix.os == 'ubuntu-latest'
       run: |
         mv dist/osmtiles dist/osmtiles_linux
         curl -v -F 'file=@dist/osmtiles_linux' http://162.19.154.182:9000/cdn/upload
-    
