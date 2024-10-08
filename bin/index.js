@@ -47,10 +47,10 @@ program
     .command('generate')
     .description('Caches map tiles')
     .option('-z, --zoom <level>', 'Optional zoom level (default: region)', 'region')
-    .requiredOption('-a1, --lat1 <latitude>', 'Top left latitude')
-    .requiredOption('-b1, --long1 <longitude>', 'Top left longitude')
-    .requiredOption('-a1, --lat2 <latitude>', 'Bottom right latitude')
-    .requiredOption('-b2, --long2 <longitude>', 'Bottom right longitude')
+    .requiredOption('--lat1 <latitude>', 'Top left latitude')
+    .requiredOption('--long1 <longitude>', 'Top left longitude')
+    .requiredOption('--lat2 <latitude>', 'Bottom right latitude')
+    .requiredOption('--long2 <longitude>', 'Bottom right longitude')
     .option('-f, --fast', 'Skip the 5-second delay between tile requests')
     .action(async (options) => {
         const spinner = ora('Finding coordinate data...').start();
