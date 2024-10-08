@@ -29,8 +29,8 @@ const latLonToTile = (lat, lon, zoom) => {
 };
 
 program
-    .version("1.0.0")
-    .description("My Node CLI")
+    .version("0.0.1")
+    .description("OSMTiles")
     .requiredOption("-p, --path <directory>", "Path to cache folder")
     .action((options) => {
         const getCacheDirectory = (zoomTitle) => {
