@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const os = require('os')
 
 const app = express();
 const port = 3000;
@@ -26,7 +27,7 @@ const latLonToTile = (lat, lon, zoom) => {
 };
 
 const getCacheDirectory = (zoomTitle) => {
-    const cacheDir = path.join(__dirname, '../cache', zoomTitle);
+    const cacheDir = path.join(os.homedir(), '/OSMTiles', zoomTitle);
     if (!fs.existsSync(cacheDir)) {
         fs.mkdirSync(cacheDir, { recursive: true });
     }
